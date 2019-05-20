@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportPhieuDiemCNTT" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="1299a961-6bc2-429d-a34a-dd3a6a881ec2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="77"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="maSV" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="hoSV" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tenSV" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select SINHVIEN.MASV,DIEM.MAMH,MONHOC=(select TENMH from MONHOC where MONHOC.MAMH=DIEM.MAMH),
+DIEM.LAN,DIEM.DIEM into #test from DIEM join SINHVIEN on DIEM.MASV = SINHVIEN.MASV 
+where SINHVIEN.MASV = $P{maSV}
+
+
+select IDENTITY(INT,1,1) as STT,* into #test2 from #test as g  where DIEM  = (select max(t.DIEM) from #test as t where t.MAMH = g.MAMH)
+ORDER BY LAN
+
+select * from #test2 
+drop table #test
+drop table #test2]]>
+	</queryString>
+	<field name="STT" class="java.lang.Integer"/>
+	<field name="MASV" class="java.lang.String"/>
+	<field name="MAMH" class="java.lang.String"/>
+	<field name="MONHOC" class="java.lang.String"/>
+	<field name="LAN" class="java.lang.Short"/>
+	<field name="DIEM" class="java.lang.Double"/>
+	<title>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="245" y="-12" width="358" height="67" uuid="4e4e70a5-e046-42be-a9ff-0739848e56fb"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="54" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[BẢNG ĐIỂM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="67" width="51" height="20" uuid="2f9e4fe5-df5e-402c-8138-d06cb01f46aa"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MSSV:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="245" y="67" width="142" height="20" uuid="3c58a8b6-f665-48a9-b5c5-fcd90b0b85f2"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MASV}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="547" y="67" width="56" height="20" uuid="bd35d852-a606-41cf-b8ce-7fe05040f45f"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Họ Tên:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="629" y="67" width="155" height="20" uuid="535b271e-67c3-480a-8883-96db574fc7b0"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hoSV}.toString() +"  "+ $P{tenSV}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="0" width="705" height="20" backcolor="#666666" uuid="6649cef0-71d4-45f7-aaee-871b2c53cd35"/>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="6fb1b0ee-9127-4cb5-aa99-c1f2b88353f8"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[STT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="100" y="0" width="383" height="20" forecolor="#FFFFFF" uuid="a87a34c7-1c73-4f9d-984f-fa0949782d6f"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[MÔN HỌC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="491" y="0" width="214" height="20" forecolor="#FFFFFF" uuid="c74c6687-da45-4b05-bd0f-1271c50cbea3"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ĐIỂM]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="1" width="483" height="20" uuid="c53755ad-c0c6-4aad-8580-19873a9479d4"/>
+				<textField>
+					<reportElement x="0" y="0" width="100" height="20" uuid="657bf1a7-e7c9-4943-bc50-7b93d94374ff"/>
+					<textFieldExpression><![CDATA[$F{STT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="100" y="0" width="383" height="20" uuid="6ee8bad5-1271-4a45-9088-ce0958db3fe5"/>
+					<textFieldExpression><![CDATA[$F{MONHOC}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1" uuid="c9ad25c9-3e8c-4c91-ab04-51f69473bcb8"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="588" y="0" width="214" height="20" uuid="2b10c0db-685e-4e1a-9270-3da7a84705d2"/>
+				<textFieldExpression><![CDATA[$F{DIEM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="68" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

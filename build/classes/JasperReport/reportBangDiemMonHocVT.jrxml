@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportBangDiemMonHocVT" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e34d9775-e9e0-4fa1-b4bf-276ba5ec0221">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="9"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="hocKi" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Lan" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="maLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="maMH" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tenLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tenMon" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT IDENTITY(INT,1,1) AS STT ,HO, TEN,DIEM
+ INTO #temp
+FROM SINHVIEN, DIEM
+where  SINHVIEN.MALOP = $P{maLop} and SINHVIEN.MASV = DIEM.MASV and DIEM.MAMH = $P{maMH} and DIEM.LAN = $P{Lan}
+select * from #temp
+drop table #temp]]>
+	</queryString>
+	<field name="STT" class="java.lang.Integer"/>
+	<field name="HO" class="java.lang.String"/>
+	<field name="TEN" class="java.lang.String"/>
+	<field name="DIEM" class="java.lang.Double"/>
+	<background>
+		<band height="575" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="200" splitType="Stretch">
+			<textField>
+				<reportElement x="733" y="10" width="25" height="20" forecolor="#6666FF" uuid="672947d6-8a9b-4091-a6e5-b1a13e2d3622"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="38" y="30" width="250" height="20" forecolor="#6666FF" uuid="c4dbe9b2-f33d-437d-865f-d1c5391dc876"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRUNG TÂM ĐÀO TẠO BC-VT II]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="59" width="49" height="20" forecolor="#3333FF" uuid="6b4bcff4-68f6-4b48-86e9-16fe3a8b15a7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Lớp:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="95" width="151" height="34" forecolor="#6666FF" uuid="92b988b0-e55a-4d71-8c1b-53a65f70f0d8"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BẢNG ĐIỂM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="758" y="10" width="11" height="20" forecolor="#6666FF" uuid="8fc61754-331e-4d02-981e-6a5622fb8f2f"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="162" width="49" height="20" forecolor="#0000FF" uuid="fdfa9fb4-e74d-4670-b856-6b5998e1f10a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Lần Thi:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="438" y="162" width="100" height="20" uuid="522270e7-f96a-441e-a715-e9423b871dc6"/>
+				<textFieldExpression><![CDATA[$P{Lan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="95" width="100" height="20" uuid="5debddad-1eaa-4de5-a08f-187ba51aac9a"/>
+				<textFieldExpression><![CDATA[$P{tenMon}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="59" width="100" height="20" uuid="9ab3d2d0-5d41-4bb4-953f-e03cb52826b1"/>
+				<textFieldExpression><![CDATA[$P{tenLop}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="10" width="252" height="20" forecolor="#6666FF" uuid="3fe2f914-749a-4e7a-afde-3b7f73be0da4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[       HỌC VIỆN BƯU CHÍNH VIỄN THÔNG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="702" y="10" width="31" height="20" forecolor="#6666FF" uuid="11a8709b-5990-41ec-b6de-64c797edd07f"/>
+				<text><![CDATA[Trang]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="769" y="10" width="18" height="20" forecolor="#6666FF" uuid="bcf97015-025c-470f-af2a-6d8f9104c532"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="131" width="100" height="20" uuid="a83dbc61-d669-4eca-929d-1b7ad4ab8004"/>
+				<textFieldExpression><![CDATA[$P{hocKi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="368" y="95" width="49" height="20" forecolor="#3300FF" uuid="2de612c7-96e5-41d6-9e45-eff1bd906c0f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Môn Học:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="131" width="49" height="20" forecolor="#0000FF" uuid="bc2ba057-efaa-4ba7-8f23-d9ca9b4f16ec"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Học Kỳ:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="5" width="705" height="20" backcolor="#666666" uuid="01cf3d9b-86b2-472b-9fc3-b02e54a8f865"/>
+				<staticText>
+					<reportElement style="Column header" x="0" y="0" width="176" height="15" uuid="16abf970-7297-471c-9350-926ea29bab36"/>
+					<text><![CDATA[STT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="176" y="0" width="352" height="15" uuid="67e852e1-a836-4ac9-8da2-cc68137e412f"/>
+					<text><![CDATA[HỌ & TÊN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="528" y="0" width="176" height="15" uuid="9f8d00da-5c04-4094-8518-82e5f514d20f"/>
+					<text><![CDATA[ĐIỂM]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="1" width="705" height="15" uuid="f7910e97-0653-410d-8e1a-38245a499512"/>
+				<textField>
+					<reportElement style="Detail" x="0" y="0" width="176" height="15" uuid="89bea21a-0c47-44d6-a7e8-4659c18d0121"/>
+					<textFieldExpression><![CDATA[$F{STT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="176" y="0" width="352" height="15" uuid="cede4eae-aab5-48de-95c6-fca6873438c6"/>
+					<textFieldExpression><![CDATA[$F{HO}.toString()+" "+$F{TEN}.toString()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="528" y="0" width="176" height="15" uuid="3f856865-60f1-436b-9113-d4a1fa073faa"/>
+					<textFieldExpression><![CDATA[$F{DIEM}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1" uuid="60bcade6-ef23-485f-ab44-5d01770c4fbf"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

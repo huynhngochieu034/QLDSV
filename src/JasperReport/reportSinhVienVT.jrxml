@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="0aade494-72a7-433b-be6e-364de12641c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="15"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="maLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tenLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT IDENTITY(INT,1,1) AS STT, HO, TEN, PHAI, NGAYSINH, NOISINH, DIACHI
+ INTO #temp
+FROM SINHVIEN
+where SINHVIEN.MALOP = $P{maLop}
+select * from #temp
+drop table #temp]]>
+	</queryString>
+	<field name="STT" class="java.lang.Integer"/>
+	<field name="HO" class="java.lang.String"/>
+	<field name="TEN" class="java.lang.String"/>
+	<field name="PHAI" class="java.lang.Boolean"/>
+	<field name="NGAYSINH" class="java.sql.Timestamp"/>
+	<field name="NOISINH" class="java.lang.String"/>
+	<field name="DIACHI" class="java.lang.String"/>
+	<title>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="123" y="13" width="500" height="67" uuid="fb939388-33c2-4921-b428-c52e334f1206"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="26" isBold="true" isItalic="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[IN DANH SÁCH SINH VIÊN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="203" y="80" width="556" height="20" uuid="963ee20a-92cd-4bce-8954-bc6faa597332"/>
+				<textFieldExpression><![CDATA[$P{tenLop}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="770" y="13" width="18" height="20" uuid="48aab523-1077-4a0d-9622-917e7b389b1f"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="759" y="13" width="11" height="20" uuid="e7f5b71c-c3ef-44c1-bfaf-36626bf8e9e1"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="80" width="41" height="20" uuid="a27dca69-a232-439b-8d45-cc197e122263"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LỚP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="703" y="13" width="31" height="20" uuid="bafb1baa-8e77-42a6-bfeb-fc3a82b865fa"/>
+				<text><![CDATA[Trang]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="734" y="13" width="25" height="20" uuid="f34970ef-c5d3-4f4c-ba57-99831c527d26"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="5" width="705" height="20" backcolor="#666666" uuid="efea0621-eba9-4242-9faa-d57fc5a81279"/>
+				<staticText>
+					<reportElement style="Column header" x="0" y="0" width="100" height="15" uuid="e253efc0-0b86-41c4-838e-fde44a167fee"/>
+					<text><![CDATA[STT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="100" y="0" width="100" height="15" uuid="27d5d9be-10c8-4dd2-b36f-e43afff8236b"/>
+					<text><![CDATA[HỌ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="200" y="0" width="100" height="15" uuid="96302476-3f09-44a9-8b64-13ca8ba9e37a"/>
+					<text><![CDATA[TÊN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="300" y="0" width="100" height="15" uuid="8eadf66d-96df-44f7-bf7d-20001e2053b5"/>
+					<text><![CDATA[PHÁI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="400" y="0" width="100" height="15" uuid="924a3dbc-cd2c-4854-8576-a08cd51725c1"/>
+					<text><![CDATA[NGÀY SINH]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="500" y="0" width="100" height="15" uuid="17eec453-09b1-44de-8742-a87e8c417d0e"/>
+					<text><![CDATA[NƠI SINH]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="600" y="0" width="100" height="15" uuid="1251a2c8-7392-417f-a5e4-0c1206ae991d"/>
+					<text><![CDATA[ĐỊA CHỈ]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="1" width="705" height="15" uuid="c9956fc2-9958-43ab-8bce-53de5663bf0c"/>
+				<textField>
+					<reportElement style="Detail" x="0" y="0" width="100" height="15" uuid="0bbcb0e2-3977-410c-b941-858ed775775a"/>
+					<textFieldExpression><![CDATA[$F{STT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="100" y="0" width="100" height="15" uuid="ced939b8-053b-4e9f-9194-be6fb1dfd43a"/>
+					<textFieldExpression><![CDATA[$F{HO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="200" y="0" width="100" height="15" uuid="77278c4a-fdca-41bc-8534-fcec451b7812"/>
+					<textFieldExpression><![CDATA[$F{TEN}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="300" y="0" width="100" height="15" uuid="347d5b76-f7e5-467e-be32-75057570328e"/>
+					<textFieldExpression><![CDATA[( $F{PHAI} ? "NAM" : "NỮ" )]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement style="Detail" x="400" y="0" width="100" height="15" uuid="25670a9c-5220-4676-acf1-da9e2ac690dd"/>
+					<textFieldExpression><![CDATA[$F{NGAYSINH}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="500" y="0" width="100" height="15" uuid="b17b375b-420d-40c9-b94f-ec9923105bb4"/>
+					<textFieldExpression><![CDATA[$F{NOISINH}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="600" y="0" width="100" height="15" uuid="73a93248-7e9e-457b-b2f2-7865af4a802e"/>
+					<textFieldExpression><![CDATA[$F{DIACHI}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="705" height="1" uuid="63a00283-0864-4d18-a51c-c6719fd6fec6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

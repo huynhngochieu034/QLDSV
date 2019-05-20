@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportBangDiemTongKetCNTT" language="groovy" pageWidth="1684" pageHeight="1190" orientation="Landscape" columnWidth="1644" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="00464696-dbe5-4846-893c-80d232c498b1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="639"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="maLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tenLop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select SINHVIEN.MASV,SINHVIEN.HO,SINHVIEN.TEN,DIEM.MAMH,MONHOC=(select TENMH from MONHOC where MONHOC.MAMH=DIEM.MAMH),
+DIEM.LAN,DIEM.DIEM into #test from DIEM join SINHVIEN on DIEM.MASV = SINHVIEN.MASV 
+where SINHVIEN.MALOP = $P{maLop}
+
+DECLARE @columns NVARCHAR(MAX), @sql NVARCHAR(MAX);
+SET @columns = N'';
+SELECT @columns += N', ' + quotename(TENMH)
+  FROM (SELECT TENMH FROM MONHOC group by TENMH ) AS x;
+SET @sql = N'
+SELECT MASV,HO,TEN,' + STUFF(@columns, 1, 2, '') + '
+FROM
+(
+ select #test.MASV,#test.HO,#test.MONHOC,#test.TEN,#test.DIEM from #test
+) AS j
+PIVOT
+(
+  max(DIEM) FOR MONHOC IN ('
+  + STUFF(REPLACE(@columns, ', [', ',['), 1, 1, '')
+  + ')
+) AS p;';
+PRINT @sql;
+EXEC sp_executesql @sql;
+drop table #test]]>
+	</queryString>
+	<field name="MASV" class="java.lang.String"/>
+	<field name="HO" class="java.lang.String"/>
+	<field name="TEN" class="java.lang.String"/>
+	<field name="Cấu trúc dữ liệu" class="java.lang.Double"/>
+	<field name="Co so du lieu" class="java.lang.Double"/>
+	<field name="Co so du lieu phan tan" class="java.lang.Double"/>
+	<field name="Lap trinh can ban" class="java.lang.Double"/>
+	<field name="Lập trình Visual Basic nâng cao" class="java.lang.Double"/>
+	<field name="Tin hoc co so 1" class="java.lang.Double"/>
+	<field name="Tin học DC" class="java.lang.Double"/>
+	<field name="toán rời rạc 1" class="java.lang.Double"/>
+	<title>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="19" y="0" width="802" height="67" uuid="abeaea51-9248-4306-bfd1-82ec2467c777"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="40" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[BẢNG ĐIỂM TỔNG KẾT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="414" y="67" width="407" height="20" uuid="ed542918-2040-43a1-8a4d-7fa03e17a1e6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tenLop}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="378" y="67" width="36" height="20" uuid="795de099-a27e-48c1-b295-16fb3c2b5110"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LỚP:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="5" width="1218" height="20" backcolor="#666666" uuid="651c2806-e4a2-4d0e-b25b-27f3c634c1b9"/>
+				<staticText>
+					<reportElement style="Column header" x="0" y="0" width="281" height="15" uuid="7d766c5d-0794-4e11-9f27-1c63abdc6c6f"/>
+					<text><![CDATA[MASV - HỌ TÊN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="281" y="0" width="100" height="15" uuid="fbcf3ef7-746a-4c08-ba49-9a12bae3a2e7"/>
+					<text><![CDATA[Cấu trúc dữ liệu]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="381" y="0" width="87" height="15" uuid="285f4966-e7f2-404f-8978-67eedfd3afde"/>
+					<text><![CDATA[Co so du lieu]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="468" y="0" width="143" height="15" uuid="34175611-0d38-4532-9004-faba23a028a8"/>
+					<text><![CDATA[Co so du lieu phan tan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="611" y="0" width="138" height="15" uuid="6ecba09b-3f45-47b9-9855-02d60faa478c"/>
+					<text><![CDATA[Lap trinh can ban]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="749" y="0" width="211" height="15" uuid="4ce36f5a-84b9-4de8-b28b-23e6f37af274"/>
+					<text><![CDATA[Lập trình Visual Basic nâng cao]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="960" y="0" width="101" height="15" uuid="f6e36a87-978f-4107-a73c-7d9e1a362697"/>
+					<text><![CDATA[Tin hoc co so 1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="1061" y="0" width="77" height="15" uuid="b3fd8228-8e88-40a2-9811-435c124eaf37"/>
+					<text><![CDATA[Tin học DC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="1138" y="0" width="80" height="15" uuid="5a9bd721-2dcb-409c-ae06-915a2f94a2e7"/>
+					<text><![CDATA[toán rời rạc 1]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="1" width="802" height="15" uuid="06afe40c-7034-4228-816f-39b2b794a804"/>
+				<textField>
+					<reportElement style="Detail" x="281" y="0" width="100" height="15" uuid="58e3888a-6f2d-444d-a91c-7405ebc94e6a"/>
+					<textFieldExpression><![CDATA[($F{Cấu trúc dữ liệu}==null  ? "" : $F{Cấu trúc dữ liệu}.toString()  )]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="381" y="0" width="82" height="15" uuid="04b5f10f-2430-46d9-9229-d4fefc3d3e51"/>
+					<textFieldExpression><![CDATA[($F{Co so du lieu}==null  ? "" : $F{Co so du lieu}.toString()  )]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="16" width="1218" height="1" uuid="c350eca1-c058-42b0-aa03-89a06b000fa5"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="281" height="15" uuid="da085872-cef8-49b5-9791-f233351522e1"/>
+				<textFieldExpression><![CDATA[$F{MASV}.toString()+" - "+$F{HO}.toString()+" "+$F{TEN}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="1138" y="2" width="79" height="15" uuid="b5b06b25-5af0-4f05-be40-8d85802395a6"/>
+				<textFieldExpression><![CDATA[($F{toán rời rạc 1}==null  ? "" : $F{toán rời rạc 1}.toString()  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="1061" y="0" width="77" height="15" uuid="18e9a54d-65c1-44cb-a29d-fee88c1c68ca"/>
+				<textFieldExpression><![CDATA[($F{Tin học DC}==null  ? "" : $F{Tin học DC}.toString()  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="960" y="0" width="101" height="15" uuid="286410bc-8fc3-4386-8ff7-5edb90d94296"/>
+				<textFieldExpression><![CDATA[($F{Tin hoc co so 1}==null  ? "" : $F{Tin hoc co so 1}.toString()  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="749" y="1" width="211" height="15" uuid="5f492b5a-5cf4-4553-85a8-99cd4a21214c"/>
+				<textFieldExpression><![CDATA[($F{Lập trình Visual Basic nâng cao}==null  ? "" : $F{Lập trình Visual Basic nâng cao}.toString()  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="611" y="0" width="138" height="15" uuid="7acc13de-5b28-43a7-ad4a-a3bc4b6b417c"/>
+				<textFieldExpression><![CDATA[($F{Lap trinh can ban}==null  ? "" : $F{Lap trinh can ban}.toString()  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="468" y="0" width="143" height="15" uuid="4f0b2dbc-87c0-4028-a5e8-9fe26f62b090"/>
+				<textFieldExpression><![CDATA[($F{Co so du lieu phan tan}==null  ? "" : $F{Co so du lieu phan tan}.toString()  )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="39" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
